@@ -3,21 +3,29 @@
 	import { TG_LINK } from '$lib/links';
 	import SkillIcons from './ui/skill-icons.svelte';
 	let cardState = $state<'init' | 'focus'>('init');
+	function switchCardState() {
+		switch (cardState) {
+			case 'init':
+				cardState = 'focus';
+				break;
+			default:
+				cardState = 'init';
+		}
+	}
 </script>
 
-<main class="grid h-svh place-items-center overflow-x-hidden">
+<svelte:window
+	onkeydown={(e) => {
+		if (e.key === 'Escape') {
+			switchCardState();
+		}
+	}} />
+
+<main class=" grid h-svh place-items-center overflow-x-hidden">
 	<button
 		data-state={cardState}
-		class=" card flex size-full flex-col justify-between sm:scale-200"
-		onclick={() => {
-			switch (cardState) {
-				case 'init':
-					cardState = 'focus';
-					break;
-				default:
-					cardState = 'init';
-			}
-		}}>
+		class="card flex size-full flex-col justify-between shadow-lg sm:scale-200"
+		onclick={switchCardState}>
 		<div class="flex items-start justify-between">
 			<a
 				target="_blank"
@@ -50,29 +58,40 @@
 			<p class="leading-none">Web Dev</p>
 		</div>
 		<div>
-			<div>Saint Petersburg / Remote - 2500$</div>
+			<div>Saint Petersburg / Remote - 2500$/month</div>
 		</div>
 	</button>
 </main>
 
 <style>
+	@keyframes card-falling {
+		0% {
+			transform: translateX(-900px) translateY(-400px) rotateX(50deg) rotateY(5deg) rotateZ(45deg);
+		}
+
+		100% {
+			transform: rotateX(50deg) rotateZ(45deg);
+		}
+	}
 	.card {
 		background-color: #f9f6f1;
 		background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
 		height: 200px;
 		width: 340px;
 		padding: 12px;
-		transform: rotateX(60deg) rotateY(0deg) rotateZ(45deg);
+		transform: rotateX(50deg) rotateZ(45deg);
 		transition: all 0.4s ease;
+		animation: card-falling 1s ease-out;
 	}
+
 	.card:hover {
 		cursor: pointer;
-		transform: rotateX(60deg) rotateY(0deg) rotateZ(45deg) translateZ(10px);
+		transform: rotateX(50deg) rotateZ(45deg) translateZ(10px);
 		box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.4);
 	}
 
 	.card[data-state='focus'] {
-		transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(10px);
+		transform: rotateX(0deg) rotateZ(0deg) translateZ(10px);
 		box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);
 	}
 
