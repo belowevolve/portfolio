@@ -58,7 +58,7 @@
 			<p class="leading-none">Web Dev</p>
 		</div>
 		<div>
-			<div>Saint Petersburg / Remote - 2500$/month</div>
+			<div>Saint Petersburg / Remote</div>
 		</div>
 	</button>
 </main>
